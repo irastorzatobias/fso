@@ -49,7 +49,7 @@ const App = () => {
   return (
     <>
       {course && course.map((val) => (
-        <Course course={val} />
+        <Course key={val.id} course={val} />
       ))}
     </>
   );
