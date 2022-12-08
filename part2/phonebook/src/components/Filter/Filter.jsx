@@ -1,7 +1,6 @@
 const Filter = ({ handleFilter }) => {
   return (
     <form
-      onSubmit={handleFilter}
       style={{
         display: "flex",
         gap: "10px",
