@@ -1,7 +1,6 @@
 import Person from "../Name/Person";
 
 const Persons = ({persons, filter}) => {
-    console.log(persons);
     const personsFinal = filter !== '' ? persons.filter((p) => p.name.toLowerCase().includes(filter.toLowerCase())) : persons;
     return (
         <>

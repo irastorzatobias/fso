@@ -1,17 +1,30 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Filter from "./components/Filter/Filter";
 import PersonForm from "./components/PersonForm/PersonForm";
 import Persons from "./components/Persons/Persons";
+import { getPersons, createPerson } from "./helpers";
 
 const App = () => {
-  const [persons, setPersons] = useState([
-    { name: "Arto Hellas", phone: "3585329897" },
-  ]);
+  const [persons, setPersons] = useState([]);
+
+  const getHook = () => {
+    (async () => {
+      let res = await getPersons();
+      setPersons(res);
+    })();
+  };
+
+  useEffect(() => {
+    getHook();
+  }, []);
+
+  const postHook = async (person) => {
+    await createPerson(person);
+  };
 
   const [newName, setNewName] = useState("");
   const [newPhone, setNewPhone] = useState("");
   const [filter, setFilter] = useState("");
-
 
   const checkName = (name) => {
     return persons.some((person) => person.name === name);
@@ -32,7 +45,13 @@ const App = () => {
       return;
     }
 
-    setPersons(persons.concat({ name: newName, phone: newPhone }));
+    const person = {
+      name: newName,
+      phone: newPhone,
+    };
+
+    postHook(person);
+    getHook();
     setNewName("");
     setNewPhone("");
     e.target.reset();
@@ -45,14 +64,14 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Filter handleFilter={handleFilter}/>
+      <Filter handleFilter={handleFilter} />
       <PersonForm
         handleNameChange={handleNameChange}
         handlePhoneChange={handlePhoneChange}
         handleSubmit={handleSubmit}
       />
       <h2>Numbers</h2>
-      <Persons persons={persons} filter={filter}/>
+      <Persons persons={persons} filter={filter} />
     </div>
   );
 };
