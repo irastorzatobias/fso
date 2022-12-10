@@ -4,6 +4,9 @@ import axios from "axios";
 function App() {
   const [country, setCountry] = useState("");
   const [countries, setCountries] = useState([]);
+  const countryFiltered = countries.filter((c) =>
+    c.name.common.toLowerCase().includes(country)
+  );
 
   useEffect(() => {
     axios
@@ -13,8 +16,8 @@ function App() {
   }, []);
 
   const handleChange = (event) => {
-    console.log(countries[100].name);
     setCountry(event.target.value);
+    console.log(countryFiltered);
   };
 
   return (
