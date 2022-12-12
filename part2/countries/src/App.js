@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import Country from "./Components/Country/Country";
 
 function App() {
   const [country, setCountry] = useState("");
@@ -17,7 +18,15 @@ function App() {
 
   const handleChange = (event) => {
     setCountry(event.target.value);
-    console.log(countryFiltered);
+  };
+
+  const countrySearch = () => {
+    const lengthCountries = countryFiltered.length;
+    if (lengthCountries > 10 || lengthCountries === 0) {
+      return "Too many results";
+    } else if (lengthCountries === 1) {
+      return countryFiltered.map((c) => <Country country={c}/>);
+    }
   };
 
   return (
@@ -26,6 +35,7 @@ function App() {
         <label htmlFor="country"> search country </label>
         <input value={country} onChange={handleChange} name="country" />
       </form>
+      {countrySearch()}
     </div>
   );
 }
