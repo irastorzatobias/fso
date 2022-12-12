@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Country from "./Components/Country/Country";
+import Countries from "./Components/Countries/Countries";
 
 function App() {
   const [country, setCountry] = useState("");
@@ -22,11 +23,11 @@ function App() {
 
   const countrySearch = () => {
     const lengthCountries = countryFiltered.length;
-    if (lengthCountries > 10 || lengthCountries === 0) {
-      return "Too many results";
-    } else if (lengthCountries === 1) {
-      return countryFiltered.map((c) => <Country country={c}/>);
+    if (lengthCountries === 1) {
+      return countryFiltered.map((c) => <Country country={c} />);
     }
+
+    return <Countries countries={countryFiltered} />;
   };
 
   return (
