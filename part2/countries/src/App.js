@@ -24,10 +24,12 @@ function App() {
   const countrySearch = () => {
     const lengthCountries = countryFiltered.length;
     if (lengthCountries === 1) {
-      return countryFiltered.map((c) => <Country country={c} />);
+      return countryFiltered.map((c) => (
+        <Country key={c.name.common} country={c} />
+      ));
     }
 
-    return <Countries countries={countryFiltered} />;
+    return <Countries countries={countryFiltered} setCountry={setCountry} />;
   };
 
   return (

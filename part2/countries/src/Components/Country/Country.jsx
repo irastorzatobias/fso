@@ -1,3 +1,5 @@
+import Weather from "../Weather/Weather";
+
 const Country = ({ country }) => {
   return (
     <div>
@@ -11,6 +13,7 @@ const Country = ({ country }) => {
         ))}
       </ul>
       <img style={{ maxWidth: "200px" }} src={country.flags.svg} alt="flag" />
+      <Weather name={country.capital}/>
     </div>
   );
 };
