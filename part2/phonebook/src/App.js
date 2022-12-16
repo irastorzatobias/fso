@@ -2,10 +2,22 @@ import { useEffect, useState } from "react";
 import Filter from "./components/Filter/Filter";
 import PersonForm from "./components/PersonForm/PersonForm";
 import Persons from "./components/Persons/Persons";
-import { getPersons, createPerson } from "./helpers";
+import {
+  getPersons,
+  createPerson,
+  deletePerson,
+  updatePerson,
+} from "./helpers";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
+
+  const resetForm = (e) => {
+    setNewName("");
+    setNewPhone("");
+    e.target.reset();
+    getHook();
+  };
 
   const getHook = () => {
     (async () => {
@@ -27,7 +39,9 @@ const App = () => {
   const [filter, setFilter] = useState("");
 
   const checkName = (name) => {
-    return persons.some((person) => person.name === name);
+    return persons.find(
+      (person) => person.name.toLowerCase() === name.toLowerCase()
+    );
   };
 
   const handleNameChange = (e) => {
@@ -40,25 +54,45 @@ const App = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (checkName(newName)) {
-      alert(`${newName} already exists in phonebook`);
-      return;
+    const newPerson = checkName(newName);
+    let person = {};
+
+    if (newPerson !== undefined) {
+      if (
+        window.confirm(
+          `${newName} is already added to phonebook, replace the old number with a new one?`
+        )
+      ) {
+        person = {
+          name: newName,
+          phone: newPhone,
+        };
+        handlePhoneUpdate(newPerson.id, person);
+        resetForm(e);
+        return;
+      }
     }
 
-    const person = {
+    person = {
       name: newName,
       phone: newPhone,
     };
 
     postHook(person);
-    getHook();
-    setNewName("");
-    setNewPhone("");
-    e.target.reset();
+    resetForm(e);
   };
 
   const handleFilter = (e) => {
     setFilter(e.target.value);
+  };
+
+  const handleDelete = (id) => {
+    deletePerson(id);
+    getHook();
+  };
+
+  const handlePhoneUpdate = (id, person) => {
+    updatePerson(id, person);
   };
 
   return (
@@ -71,7 +105,7 @@ const App = () => {
         handleSubmit={handleSubmit}
       />
       <h2>Numbers</h2>
-      <Persons persons={persons} filter={filter} />
+      <Persons persons={persons} filter={filter} handleDelete={handleDelete} />
     </div>
   );
 };
