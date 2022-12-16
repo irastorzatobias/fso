@@ -8,6 +8,7 @@ import {
   deletePerson,
   updatePerson,
 } from "./helpers";
+import Notification from "./components/Notification/Notification";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -98,6 +99,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={'Hola'} notificationType={'success'}/>
       <Filter handleFilter={handleFilter} />
       <PersonForm
         handleNameChange={handleNameChange}
