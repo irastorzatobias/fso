@@ -1,37 +1,22 @@
 import axios from "axios";
+const baseUrl = "http://localhost:3001/persons";
 
 export const getPersons = () => {
-  return axios
-    .get("http://localhost:3001/persons")
-    .then((response) => response.data)
-    .catch((e) => console.log(e));
+  const request = axios.get(baseUrl);
+  return request.then((response) => response.data);
 };
 
 export const createPerson = (person) => {
-    return axios
-        .post('http://localhost:3001/persons', {
-            name: person.name,
-            phone: person.phone
-        })
-        .then((response) => response)
-        .catch((e) => console.log(e))
-}
+  const request = axios.post(baseUrl, person);
+  return request.then((response) => response.data);
+};
 
 export const deletePerson = (id) => {
-    return axios
-    .delete(`http://localhost:3001/persons/${id}`)
-    .then((response => response))
-    .catch((e) => console.log(e))
-}
+  const request = axios.delete(`${baseUrl}/${id}`);
+  return request.then((response) => response.data);
+};
 
 export const updatePerson = (id, person) => {
-    return axios
-    .put(`http://localhost:3001/persons/${id}`, {
-        name: person.name,
-        phone: person.phone
-        })
-    .then((response => response))
-    .catch((e) => console.log(e))
-}
-
-
+  const request = axios.put(`${baseUrl}/${id}`, person);
+  return request.then((response) => response.data);
+};

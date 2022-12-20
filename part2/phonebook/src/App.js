@@ -33,11 +33,17 @@ const App = () => {
 
   const postHook = async (person) => {
     await createPerson(person);
+    setNotification({
+      message: `Added ${person.name}`,
+      type: "success",
+    });
+    resetNotification();
   };
 
   const [newName, setNewName] = useState("");
   const [newPhone, setNewPhone] = useState("");
   const [filter, setFilter] = useState("");
+  const [notification, setNotification] = useState({});
 
   const checkName = (name) => {
     return persons.find(
@@ -88,18 +94,46 @@ const App = () => {
   };
 
   const handleDelete = (id) => {
-    deletePerson(id);
+    deletePerson(id).then(() => {
+      setNotification({
+        message: "Deleted",
+        type: "success",
+      });
+      resetNotification();
+    })
+    .catch(() => {
+      setNotification({
+        message: "Information of this person has already been removed from server",
+        type: "error",
+      });
+      resetNotification();
+    });
+
     getHook();
   };
 
   const handlePhoneUpdate = (id, person) => {
     updatePerson(id, person);
+    setNotification({
+      message: `Updated ${person.name}`,
+      type: "success",
+    });
+    resetNotification();
+  };
+
+  const resetNotification = () => {
+    setTimeout(() => {
+      setNotification({});
+    }, 2000)
   };
 
   return (
     <div>
       <h2>Phonebook</h2>
-      <Notification message={'Hola'} notificationType={'success'}/>
+      <Notification
+        message={notification.message}
+        notificationType={notification.type}
+      />
       <Filter handleFilter={handleFilter} />
       <PersonForm
         handleNameChange={handleNameChange}
