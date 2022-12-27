@@ -1,6 +1,26 @@
+const morgan = require('morgan');
 const express = require('express');
 const app = express();
+
 app.use(express.json());
+
+// morgan.token('id', function getId (req) {
+// 	return req.body.name;
+// });
+
+// app.use(morgan(':id :method :url :response-time'));
+
+app.use(morgan(function (tokens, req, res) {
+	console.log(tokens);
+	return [
+		tokens.method(req, res),
+		tokens.url(req, res),
+		tokens.status(req, res),
+		tokens.res(req, res, 'content-length'), '-',
+		JSON.stringify(req.body),
+		tokens['response-time'](req, res), 'ms'
+	].join(' ');
+}));
 
 let phones = [
 	{
