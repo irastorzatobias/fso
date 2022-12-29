@@ -2,14 +2,13 @@ const morgan = require('morgan');
 const express = require('express');
 const app = express();
 const cors = require('cors');
-
+const process = require('process');
 
 app.use(cors());
 app.use(express.json());
 
 
 app.use(morgan(function (tokens, req, res) {
-	console.log(tokens);
 	return [
 		tokens.method(req, res),
 		tokens.url(req, res),
@@ -24,22 +23,22 @@ let phones = [
 	{
 		id: 1,
 		name: 'Arto Hellas',
-		number: '040-123456',
+		phone: '040-123456',
 	},
 	{
 		id: 2,
 		name: 'Ada Lovelace',
-		number: '39-44-5323523',
+		phone: '39-44-5323523',
 	},
 	{
 		id: 3,
 		name: 'Dan Abramov',
-		number: '12-43-234345',
+		phone: '12-43-234345',
 	},
 	{
 		id: 4,
 		name: 'Mary Poppendieck',
-		number: '39-23-6423122',
+		phone: '39-23-6423122',
 	},
 ];
 
@@ -47,8 +46,8 @@ const generateId = () => {
 	return Math.max(...phones.map((p) => p.id)) + 1;
 };
 
-const checkIfPhoneExists = (number) => {
-	return phones.some((phone) => phone.number === number);
+const checkIfPhoneExists = (p) => {
+	return phones.some((phone) => phone.phone === p);
 };
 
 const checkIfNameExists = (name) => {
@@ -84,7 +83,7 @@ app.delete('/api/phonebook/:id', (request, response) => {
 });
 
 app.post('/api/phonebook', (request, response) => {
-	if (!request.body.name || !request.body.number) {
+	if (!request.body.name || !request.body.phone) {
 		return response.status(400).json({
 			error: 'missing required field(s)',
 		});
@@ -105,7 +104,7 @@ app.post('/api/phonebook', (request, response) => {
 	const newPerson = {
 		id: generateId(),
 		name: request.body.name,
-		number: request.body.number,
+		phone: request.body.phone,
 	};
 
 	phones = phones.concat(newPerson);
@@ -113,7 +112,7 @@ app.post('/api/phonebook', (request, response) => {
 	response.send(newPerson);
 });
 
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 
 app.listen(PORT, () => {
 	console.log(`Server running on port ${PORT}`);

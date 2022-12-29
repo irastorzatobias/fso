@@ -17,7 +17,6 @@ const App = () => {
     setNewName("");
     setNewPhone("");
     e.target.reset();
-    getHook();
   };
 
   const getHook = () => {
@@ -85,7 +84,10 @@ const App = () => {
       phone: newPhone,
     };
 
-    postHook(person);
+    postHook(person).then(() => {
+      getHook();
+    });
+
     resetForm(e);
   };
 
@@ -100,6 +102,7 @@ const App = () => {
         type: "success",
       });
       resetNotification();
+      getHook();
     })
     .catch(() => {
       setNotification({
@@ -108,12 +111,12 @@ const App = () => {
       });
       resetNotification();
     });
-
-    getHook();
   };
 
   const handlePhoneUpdate = (id, person) => {
-    updatePerson(id, person);
+    updatePerson(id, person).then(() => {
+      getHook();
+    });
     setNotification({
       message: `Updated ${person.name}`,
       type: "success",
