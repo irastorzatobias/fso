@@ -15,7 +15,10 @@ const unknownEndpoint = (request, response) => {
 }
 
 app.use(express.json());
-app.use(morgan('tiny'));
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body', {
+  skip: function (req, res) { return req.method !== 'POST' }
+}));
+
 
 // app.use(requestLogger);
 
@@ -117,6 +120,8 @@ app.post("/api/persons", (request, response) => {
   } else {
     response.json(newPerson);
   }
+
+  morgan.token('body', request => JSON.stringify(request.body))
 });
 
 app.get("/info", (request, response) => {
