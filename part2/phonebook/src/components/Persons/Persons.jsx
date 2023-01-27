@@ -14,7 +14,7 @@ const Persons = ({ persons, filter, handleDelete }) => {
           <Person
             key={p.id}
             name={p.name}
-            phone={p.phone}
+            phone={p.number}
             listId={p.id}
             deletePerson={handleDelete}
           />

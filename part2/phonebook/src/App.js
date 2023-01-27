@@ -71,7 +71,7 @@ const App = () => {
       ) {
         person = {
           name: newName,
-          phone: newPhone,
+          number: newPhone,
         };
         handlePhoneUpdate(newPerson.id, person);
         resetForm(e);
@@ -81,7 +81,7 @@ const App = () => {
 
     person = {
       name: newName,
-      phone: newPhone,
+      number: newPhone,
     };
 
     postHook(person).then(() => {
