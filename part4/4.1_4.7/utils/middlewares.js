@@ -2,8 +2,18 @@ const logger = require('./logger');
 
 const routeNotFound = (req, res, next) => {
     res.status(404).json({ message: 'Route not found' });
+    next();
 };
 
+const getTokenFrom = (req, res, next) => {
+    const authorization = req.get('authorization');
+    req.token = null;
+    if (authorization && authorization.startsWith('Bearer ')) {
+        req.token = authorization.replace('Bearer ', '');
+    }
+
+    next();
+};
 const errorHandler = (error, request, response, next) => {
     logger.error(error.message);
 
@@ -18,4 +28,4 @@ const errorHandler = (error, request, response, next) => {
     next(error);
 };
 
-module.exports = { routeNotFound, errorHandler };
+module.exports = { routeNotFound, errorHandler, getTokenFrom };
