@@ -7,23 +7,30 @@ const routeNotFound = (req, res, next) => {
     next();
 };
 
-const tokenExtractor = (req, res, next) => {
-    // Verificar el token
-    const authorization = req.get('authorization');
-    req.token = null;
+const getTokenFrom = (request) => {
+    const authorization = request.get('authorization');
     if (authorization && authorization.startsWith('Bearer ')) {
-        req.token = authorization.replace('Bearer ', '');
+        return authorization.replace('Bearer ', '');
+    }
+
+    return null;
+};
+
+const tokenExtractor = (req, res, next) => {
+    req.token = null;
+    const token = getTokenFrom(req);
+    if (token) {
+        req.token = token;
     }
 
     next();
 };
 
 const userExtractor = (req, res, next) => {
-    const token = req.token;
     req.user = null;
 
-    if (!token) {
-        const decodedToken = jwt.verify(token, SECRET);
+    if (req.token) {
+        const decodedToken = jwt.verify(req.token, SECRET);
         req.user = decodedToken;
     } else {
         return res.status(401).json({ error: 'token missing or invalid' });
