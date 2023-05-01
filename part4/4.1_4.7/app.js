@@ -13,6 +13,7 @@ app.use(express.static('build'));
 
 app.use('/api/blogs', require('./controller/blogController'));
 app.use('/api/users', require('./controller/userController'));
+app.use('/api/login', require('./controller/loginController'));
 
 app.use(routeNotFound);
 app.use(errorHandler);
