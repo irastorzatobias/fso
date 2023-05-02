@@ -10,6 +10,7 @@ const {
     tokenExtractor,
     userExtractor,
 } = require('./utils/middlewares');
+
 mongoose.connect(config.MONGODB_URI);
 
 app.use(cors());
