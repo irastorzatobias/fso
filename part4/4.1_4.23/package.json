@@ -21,7 +21,8 @@
     "mongodb": "4.1",
     "mongoose": "^7.0.5",
     "morgan": "^1.10.0",
-    "nodemon": "^2.0.22"
+    "nodemon": "^2.0.22",
+    "react-modal": "^3.16.1"
   },
   "devDependencies": {
     "eslint": "^8.39.0",
