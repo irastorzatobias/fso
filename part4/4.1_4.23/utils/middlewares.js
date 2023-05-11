@@ -28,7 +28,6 @@ const tokenExtractor = (req, res, next) => {
 
 const userExtractor = (req, res, next) => {
     req.user = null;
-    console.log(req.get('authorization'));
 
     if (req.token) {
         const decodedToken = jwt.verify(req.token, SECRET);

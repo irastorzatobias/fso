@@ -1,8 +1,8 @@
-import axios from "axios";
-const baseUrl = "/api/blogs";
+import axios from 'axios';
+const baseUrl = '/api/blogs';
 
 const headers = {
-  Authorization: `Bearer ${localStorage.getItem("userToken")}` || null,
+  Authorization: `Bearer ${localStorage.getItem('userToken')}` || null,
 };
 
 const getAll = async () => {
@@ -29,5 +29,4 @@ const likeBlog = async (id) => {
   return request.data;
 };
 
-// eslint-disable-next-line import/no-anonymous-default-export
 export default { getAll, addBlog, deleteBlog, likeBlog };

@@ -1,10 +1,9 @@
-import { useState } from "react";
-import blogService from "../services/blogs";
+import { useState } from 'react';
 
 const AddBlog = ({ handleAddBlog }) => {
-  const [title, setTitle] = useState("");
-  const [author, setAuthor] = useState("");
-  const [url, setUrl] = useState("");
+  const [title, setTitle] = useState('');
+  const [author, setAuthor] = useState('');
+  const [url, setUrl] = useState('');
 
   const handleTitleChange = (e) => {
     setTitle(e.target.value);
@@ -21,16 +20,16 @@ const AddBlog = ({ handleAddBlog }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    await blogService.addBlog({ title, author, url });
+    await handleAddBlog({ title, author, url });
 
-    setTitle("");
-    setAuthor("");
-    setUrl("");
+    setTitle('');
+    setAuthor('');
+    setUrl('');
   };
 
   return (
     <form className="w-[40vw] mb-1 mx-auto" onSubmit={handleSubmit}>
-      <div class="flex flex-col">
+      <div className="flex flex-col">
         <label htmlFor="title">Title</label>
         <input
           className="p-2 rounded-md mb-2"
