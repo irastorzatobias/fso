@@ -1,62 +1,34 @@
 import { useSelector, useDispatch } from "react-redux";
-import { useState } from "react";
+import voteAction from "./actions/voteAction";
+import AnecdoteForm from "./components/AnecdoteForm";
 
 const App = () => {
   const anecdotes = useSelector((state) => state);
   const dispatch = useDispatch();
-  const [anecdote, setAnecdote] = useState("");
-
-  const getId = () => (100000 * Math.random()).toFixed(0);
 
   const vote = (id) => {
-    const action = {
-      type: "VOTE",
-      id: id,
-    };
-
-    dispatch(action);
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    const anecdoteObject = {
-      content: anecdote,
-      id: getId(),
-      votes: 0,
-    };
-
-    const addAction = {
-      type: "ADD",
-      content: anecdoteObject,
-    };
-
-    dispatch(addAction);
-  };
-
-  const handleChange = (e) => {
-    setAnecdote(e.target.value);
+    dispatch(voteAction(id));
   };
 
   return (
     <div>
-      <h2>Anecdotes</h2>
+      <h2 className="text-red-500">Anecdotes</h2>
       {anecdotes.map((anecdote) => (
-        <div key={anecdote.id}>
+        <div key={anecdote.id} className="flex flex-row items-center gap-2">
           <div>{anecdote.content}</div>
-          <div>
+          <div class='space-x-1'>
             has {anecdote.votes}
-            <button onClick={() => vote(anecdote.id)}>vote</button>
+            <button
+              onClick={() => vote(anecdote.id)}
+              className="bg-indigo-200 text-indigo-700 px-1 rounded-md"
+            >
+              vote
+            </button>
           </div>
         </div>
       ))}
-      <h2>create new</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <input value={anecdote} onChange={handleChange} />
-        </div>
-        <button type="submit">create</button>
-      </form>
+
+      <AnecdoteForm />
     </div>
   );
 };
