@@ -1,8 +1,12 @@
 import { useSelector, useDispatch } from "react-redux";
+import { useState } from "react";
 
 const App = () => {
   const anecdotes = useSelector((state) => state);
   const dispatch = useDispatch();
+  const [anecdote, setAnecdote] = useState("");
+
+  const getId = () => (100000 * Math.random()).toFixed(0);
 
   const vote = (id) => {
     const action = {
@@ -11,6 +15,27 @@ const App = () => {
     };
 
     dispatch(action);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const anecdoteObject = {
+      content: anecdote,
+      id: getId(),
+      votes: 0,
+    };
+
+    const addAction = {
+      type: "ADD",
+      content: anecdoteObject,
+    };
+
+    dispatch(addAction);
+  };
+
+  const handleChange = (e) => {
+    setAnecdote(e.target.value);
   };
 
   return (
@@ -26,11 +51,11 @@ const App = () => {
         </div>
       ))}
       <h2>create new</h2>
-      <form>
+      <form onSubmit={handleSubmit}>
         <div>
-          <input />
+          <input value={anecdote} onChange={handleChange} />
         </div>
-        <button>create</button>
+        <button type="submit">create</button>
       </form>
     </div>
   );

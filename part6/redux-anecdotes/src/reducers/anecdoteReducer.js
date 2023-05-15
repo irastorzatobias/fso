@@ -13,17 +13,18 @@ const asObject = (anecdote) => {
   return {
     content: anecdote,
     id: getId(),
-    votes: 0,
+    votes: Math.floor(Math.random() * 50),
   };
 };
 
-const initialState = anecdotesAtStart.map(asObject);
+const initialState = anecdotesAtStart
+  .map(asObject)
+  .sort((a, b) => b.votes - a.votes);
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case "VOTE":
       const id = action.id;
-      console.log(id);
       const anecdoteToChange = state.find((a) => a.id === id);
 
       const changedAnecdote = {
@@ -32,6 +33,10 @@ const reducer = (state = initialState, action) => {
       };
 
       return state.map((a) => (a.id !== id ? a : changedAnecdote));
+
+    case "ADD":
+      const content = action.content;
+      return [...state, content];
 
     default:
       return state;
