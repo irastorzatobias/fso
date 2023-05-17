@@ -2,7 +2,15 @@ import { useDispatch, useSelector } from "react-redux";
 import voteAction from "../actions/voteAction";
 
 const AnecdoteList = () => {
-  const anecdotes = useSelector((state) => state);
+  const anecdotes = useSelector((state) => state.anecdotes);
+  const filter = useSelector((state) => state.filter);
+
+  const filteredAnecdotes = anecdotes.filter((anecdote) =>
+    anecdote.content.toLowerCase().includes(filter.toLowerCase())
+  );
+
+  const displayedAnecdotes = filter === "" ? anecdotes : filteredAnecdotes;
+
   const dispatch = useDispatch();
 
   const vote = (id) => {
@@ -11,7 +19,7 @@ const AnecdoteList = () => {
 
   return (
     <div>
-      {anecdotes.map((anecdote) => (
+      {displayedAnecdotes.map((anecdote) => (
         <div key={anecdote.id} className="flex flex-row items-center gap-2">
           <div>{anecdote.content}</div>
           <div>
