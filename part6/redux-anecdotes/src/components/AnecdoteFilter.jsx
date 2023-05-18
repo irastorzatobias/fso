@@ -1,11 +1,11 @@
 import { useDispatch } from "react-redux";
-import filterAction from "../actions/filterAction";
+import { setFilter } from "../store/reducers/filterReducer";
 
 const AnecdoteFilter = () => {
   const dispatch = useDispatch();
 
   const handleChange = (event) => {
-    dispatch(filterAction(event.target.value));
+    dispatch(setFilter(event.target.value));
   };
 
   return (

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import addAction from "../actions/addAction";
+import { addAnecdote } from "../store/reducers/anecdoteReducer";
+import { removeNotification, setNotification } from "../store/reducers/notificationReducer";
 
 const AnecdoteForm = () => {
   const [anecdote, setAnecdote] = useState("");
@@ -17,7 +18,13 @@ const AnecdoteForm = () => {
       votes: 0,
     };
 
-    dispatch(addAction(anecdoteObject));
+    dispatch(addAnecdote(anecdoteObject));
+    dispatch(setNotification('you created an anecdote'));
+    setAnecdote("");
+
+    setTimeout(() => {
+      dispatch(removeNotification())
+    }, 2000);
   };
 
   const handleChange = (e) => {
@@ -25,7 +32,7 @@ const AnecdoteForm = () => {
   };
 
   return (
-    <div class="p-1 border-2 w-1/4 m-1 rounded-md">
+    <div className="p-1 border-2 w-1/4 m-1 rounded-md">
       <h2>create new</h2>
       <form onSubmit={handleSubmit}>
         <div>
