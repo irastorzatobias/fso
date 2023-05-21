@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import {
+  notificationSetter,
   removeNotification,
-  setNotification,
 } from "../store/reducers/notificationReducer";
 import { createAnecdote } from "../store/reducers/anecdoteReducer";
 
@@ -23,12 +23,8 @@ const AnecdoteForm = () => {
 
     dispatch(createAnecdote(anecdoteObject));
 
-    dispatch(setNotification("you created an anecdote"));
+    dispatch(notificationSetter("you created an anecdote"));
     setAnecdote("");
-
-    setTimeout(() => {
-      dispatch(removeNotification());
-    }, 2000);
   };
 
   const handleChange = (e) => {
