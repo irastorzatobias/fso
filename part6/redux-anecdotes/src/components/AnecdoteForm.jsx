@@ -1,7 +1,10 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { addAnecdote } from "../store/reducers/anecdoteReducer";
-import { removeNotification, setNotification } from "../store/reducers/notificationReducer";
+import {
+  removeNotification,
+  setNotification,
+} from "../store/reducers/notificationReducer";
+import { createAnecdote } from "../store/reducers/anecdoteReducer";
 
 const AnecdoteForm = () => {
   const [anecdote, setAnecdote] = useState("");
@@ -18,12 +21,13 @@ const AnecdoteForm = () => {
       votes: 0,
     };
 
-    dispatch(addAnecdote(anecdoteObject));
-    dispatch(setNotification('you created an anecdote'));
+    dispatch(createAnecdote(anecdoteObject));
+
+    dispatch(setNotification("you created an anecdote"));
     setAnecdote("");
 
     setTimeout(() => {
-      dispatch(removeNotification())
+      dispatch(removeNotification());
     }, 2000);
   };
 
@@ -39,7 +43,7 @@ const AnecdoteForm = () => {
           <input
             value={anecdote}
             onChange={handleChange}
-            className="border-indigo-700 border rounded-md"
+            className="border-indigo-700 border rounded-md text-black"
           />
         </div>
         <button

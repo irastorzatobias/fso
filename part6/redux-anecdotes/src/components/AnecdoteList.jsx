@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { voteAnecdote } from "../store/reducers/anecdoteReducer";
+import { voteAnecdote, voteAnecdoteThunk } from "../store/reducers/anecdoteReducer";
 import {
   removeNotification,
   setNotification,
@@ -17,8 +17,8 @@ const AnecdoteList = () => {
 
   const dispatch = useDispatch();
 
-  const vote = (id) => {
-    dispatch(voteAnecdote(id));
+  const handleVote = (id) => {
+    dispatch(voteAnecdoteThunk(id));
     dispatch(setNotification("you voted an anecdote!"));
 
     setTimeout(() => {
@@ -29,12 +29,15 @@ const AnecdoteList = () => {
   return (
     <div>
       {displayedAnecdotes.map((anecdote) => (
-        <div key={anecdote.id} className="flex flex-row items-center gap-2">
+        <div
+          key={anecdote.id}
+          className="flex flex-row items-center gap-2 border w-3/4  mb-2 p-1 font-bold justify-between"
+        >
           <div>{anecdote.content}</div>
-          <div>
-            has {anecdote.votes}
+          <div className="flex flex-row justify-center items-center">
+            <div className="text-green-300">{anecdote.votes}</div>
             <button
-              onClick={() => vote(anecdote.id)}
+              onClick={() => handleVote(anecdote.id)}
               className="bg-indigo-200 text-indigo-700 px-1 rounded-md ml-2"
             >
               vote
