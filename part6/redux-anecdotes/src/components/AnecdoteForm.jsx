@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import {
   notificationSetter,
-  removeNotification,
 } from "../store/reducers/notificationReducer";
 import { createAnecdote } from "../store/reducers/anecdoteReducer";
 
@@ -10,20 +9,17 @@ const AnecdoteForm = () => {
   const [anecdote, setAnecdote] = useState("");
   const dispatch = useDispatch();
 
-  const getId = () => (100000 * Math.random()).toFixed(0);
-
   const handleSubmit = (e) => {
     e.preventDefault();
 
     const anecdoteObject = {
       content: anecdote,
-      id: getId(),
       votes: 0,
     };
 
     dispatch(createAnecdote(anecdoteObject));
-
     dispatch(notificationSetter("you created an anecdote"));
+
     setAnecdote("");
   };
 

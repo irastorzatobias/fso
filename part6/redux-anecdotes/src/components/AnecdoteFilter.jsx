@@ -13,7 +13,7 @@ const AnecdoteFilter = () => {
       filter{" "}
       <input
         onChange={handleChange}
-        className="border-indigo-700 border rounded-md px-1"
+        className="border-indigo-700 border rounded-md px-1 text-black"
       />
     </div>
   );
