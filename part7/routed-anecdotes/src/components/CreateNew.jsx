@@ -1,23 +1,29 @@
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import useField from "../hooks/fieldHook";
 
 const CreateNew = (props) => {
-  const [content, setContent] = useState("");
-  const [author, setAuthor] = useState("");
-  const [info, setInfo] = useState("");
+  const content = useField();
+  const author = useField();
+  const info = useField();
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     props.addNew({
-      content,
-      author,
-      info,
+      content: content.value,
+      author: author.value,
+      info: info.value,
       votes: 0,
     });
 
     navigate("/");
   };
+
+  const reset = () => {
+    content.reset();
+    author.reset();
+    info.reset();
+  }
 
   return (
     <div>
@@ -27,35 +33,39 @@ const CreateNew = (props) => {
           content
           <input
             className="border border-indigo-400 rounded-md ml-1 mt-1"
-            name="content"
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
+            {...content}
           />
         </div>
         <div>
           author
           <input
             className="border border-indigo-400 rounded-md ml-1 mt-1"
-            name="author"
-            value={author}
-            onChange={(e) => setAuthor(e.target.value)}
+            {...author}
           />
         </div>
         <div>
           url for more info
           <input
             className="border border-indigo-400 rounded-md ml-1 mt-1"
-            name="info"
-            value={info}
-            onChange={(e) => setInfo(e.target.value)}
+            {...info}
           />
         </div>
-        <button
-          className="p-1 border rounded-lg bg-green-200 text-green-700 hover:bg-green-700 
-        hover:text-green-200 transition-all ease-in duration-75"
-        >
-          create
-        </button>
+        <div>
+          <button
+            className="p-1 border rounded-lg bg-green-200 text-green-700 hover:bg-green-700 
+          hover:text-green-200 transition-all ease-in duration-75"
+          >
+            create
+          </button>
+          <button
+            type="reset"
+            className="p-1 border rounded-lg bg-red-200 text-red-700 hover:bg-red-700
+          hover:text-red-200 transition-all ease-in duration-75"
+            onClick={reset}
+          >
+            reset
+          </button>
+        </div>
       </form>
     </div>
   );
