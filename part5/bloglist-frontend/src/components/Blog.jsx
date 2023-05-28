@@ -16,7 +16,7 @@ const Blog = ({ blog, handleBlogDelete, handleBlogLike }) => {
   return (
     <div className="border border-teal-500 p-1 truncate shadow-lg mb-3 rounded-md flex gap-3">
       <div className="text-sm">
-        <p>"{blog.title}"</p>
+        <p>{blog.title}</p>
         <p className="italic font-semibold ">{blog.author}</p>
         {viewAll && (
           <div className="flex flex-col">

@@ -1,13 +1,13 @@
-import { useState, useEffect } from "react";
-import login from "../services/login";
+import { useState, useEffect } from 'react';
+import login from '../services/login';
 
 const Login = ({ handleLoginSuccess }) => {
   useEffect(() => {
-    window.localStorage.removeItem("userToken");
+    window.localStorage.removeItem('userToken');
   }, []);
 
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
   const handleUsernameChange = (event) => {
     setUsername(event.target.value);
@@ -26,7 +26,7 @@ const Login = ({ handleLoginSuccess }) => {
     }
 
     const token = user.token;
-    window.localStorage.setItem("userToken", token);
+    window.localStorage.setItem('userToken', token);
     handleLoginSuccess(user);
   };
 
