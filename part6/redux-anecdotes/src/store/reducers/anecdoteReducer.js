@@ -50,4 +50,5 @@ export const voteAnecdoteThunk = (id) => {
 
 export const { addAnecdote, voteAnecdote, setAnecdotes } =
   anecdoteSlice.actions;
+
 export default anecdoteSlice.reducer;
