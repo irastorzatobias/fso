@@ -3,6 +3,7 @@ import Login from './components/Login';
 import Header from './components/Header';
 import Togglable from './components/Togglable';
 import AddBlog from './components/AddBlog';
+import UserList from './components/UserList';
 import 'remixicon/fonts/remixicon.css';
 import { BounceLoader } from 'react-spinners';
 import { ToastContainer } from 'react-toastify';
@@ -11,6 +12,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getBlogs } from './reducers/blogReducer';
 import BlogList from './components/BlogList';
 import { removeUser } from './reducers/userReducer';
+import { Route, Routes } from 'react-router-dom';
 
 const App = () => {
     const user = useSelector(state => state.user);
@@ -35,15 +37,20 @@ const App = () => {
         <div className="w-screen h-screen bg-gray-200 overflow-hidden">
             <ToastContainer />
             <Header user={user} handleLogout={handleLogout} />
-            <div className="flex flex-col justify-center items-center">
-                {!user && <Login />}
-                <div className="flex flex-row gap-2 flex-wrap  items-start">
-                    {user && <BlogList/>}
-                </div>
-                <Togglable buttonLabel={'add blog'} user={user}>
-                    <AddBlog />
-                </Togglable>
-            </div>
+            <Routes>
+                <Route path='/' element={
+                    <div className="flex flex-col justify-center items-center">
+                        {!user && <Login />}
+                        <div className="flex flex-row gap-2 flex-wrap  items-start">
+                            {user && <BlogList/>}
+                        </div>
+                        <Togglable buttonLabel={'add blog'} user={user}>
+                            <AddBlog />
+                        </Togglable>
+                    </div>
+                }/>
+                <Route path='/users' element={<UserList/>} />
+            </Routes>
             {loading && (
                 <div className="absolute top-0 left-0 w-screen h-screen bg-black opacity-50 flex justify-center items-center">
                     <div className="text-center">
