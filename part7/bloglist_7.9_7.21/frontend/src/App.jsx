@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import Login from './components/Login';
 import Header from './components/Header';
 import Togglable from './components/Togglable';
@@ -13,18 +13,17 @@ import { getBlogs } from './reducers/blogReducer';
 import BlogList from './components/BlogList';
 import { removeUser } from './reducers/userReducer';
 import { Route, Routes } from 'react-router-dom';
+import User from './components/User';
 
 const App = () => {
     const user = useSelector(state => state.user);
-    const [loading, setLoading] = useState(false);
+    const loading = useSelector(state => state.blog.loading);
 
     const dispatch = useDispatch();
 
     useEffect(() => {
         if (user) {
-            setLoading(true);
             dispatch(getBlogs());
-            setLoading(false);
         }
     }, [user]);
 
@@ -50,6 +49,7 @@ const App = () => {
                     </div>
                 }/>
                 <Route path='/users' element={<UserList/>} />
+                <Route path='/users/:id' element={<User/>} />
             </Routes>
             {loading && (
                 <div className="absolute top-0 left-0 w-screen h-screen bg-black opacity-50 flex justify-center items-center">

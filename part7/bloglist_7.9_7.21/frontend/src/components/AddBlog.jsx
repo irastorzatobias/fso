@@ -1,29 +1,36 @@
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import useField from '../hooks/useField';
 import { addBlog } from '../reducers/blogReducer';
+import { toast } from 'react-toastify';
 
 const AddBlog = () => {
     const title = useField('text');
     const author = useField('text');
     const url = useField('text');
+    const error = useSelector(state => state.blog.error);
 
     const dispatch = useDispatch();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
-        dispatch(
-            addBlog({
-                title: title.value,
-                author: author.value,
-                url: url.value,
-                likes: 0,
-            })
-        );
+        // if(error) {
+        //     toast.error('Error adding blog, please reload');
+        // }
 
-        title.setValue('');
-        author.setValue('');
-        url.setValue('');
+        // dispatch(
+        //     addBlog({
+        //         title: title.value,
+        //         author: author.value,
+        //         url: url.value,
+        //         likes: 0,
+        //     })
+        // );
+
+
+        // title.setValue('');
+        // author.setValue('');
+        // url.setValue('');
     };
 
     return (

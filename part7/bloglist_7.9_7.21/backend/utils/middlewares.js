@@ -17,7 +17,6 @@ const getTokenFrom = (request) => {
 };
 
 const tokenExtractor = (req, res, next) => {
-    req.token = null;
     const token = getTokenFrom(req);
     if (token) {
         req.token = token;
@@ -27,11 +26,10 @@ const tokenExtractor = (req, res, next) => {
 };
 
 const userExtractor = (req, res, next) => {
-    req.user = null;
-
     if (req.token) {
         const decodedToken = jwt.verify(req.token, SECRET);
         req.user = decodedToken;
+        console.log(req.user);
     } else {
         return res.status(401).json({ error: 'token missing or invalid' });
     }

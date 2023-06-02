@@ -13,7 +13,7 @@ blogRouter.post('/', async (request, response) => {
         return response.status(401).json({ error: 'token missing or invalid' });
     }
 
-    // User logged in
+
     const user = await User.findById(request.user.id);
 
     const { title, author, url, likes } = request.body;
