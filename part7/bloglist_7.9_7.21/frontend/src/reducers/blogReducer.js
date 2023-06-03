@@ -63,7 +63,7 @@ export const addBlog = (content) => {
         dispatch(setError(null));
         try {
             const newBlog = await blogs.addBlog(content);
-            dispatch(add(newBlog));
+            dispatch(getBlogs());
         } catch (e) {
             dispatch(setError(e.name));
         } finally {

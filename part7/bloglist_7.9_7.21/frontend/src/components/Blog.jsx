@@ -1,10 +1,12 @@
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import {  useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { likeBlog, removeBlog } from '../reducers/blogReducer';
+import { useParams } from 'react-router-dom';
 
 const Blog = ({ blog }) => {
     const [viewAll, setViewAll] = useState(false);
     const dispatch = useDispatch();
+    const { id } = useParams();
 
     const deleteIconClass = `${!viewAll ? 'ri-eye-line' : 'ri-eye-off-line'}`;
 
@@ -16,10 +18,10 @@ const Blog = ({ blog }) => {
         await dispatch(likeBlog(id));
     };
 
-    return (
-        <div className="border border-teal-500 p-1 truncate shadow-lg mb-3 rounded-md flex gap-3">
+    return (blog &&
+        <div className="border border-teal-500 p-1 truncate shadow-lg mb-3 rounded-md gap-3 mx-2 inline-flex">
             <div className="text-sm">
-                <p>{blog.title}</p>
+                <p className='uppercase'>{blog.title}</p>
                 <p className="italic font-semibold">{blog.author}</p>
                 <p className="font-semibold text-indigo-700">Created by: {blog.user.username}</p>
                 {viewAll && (

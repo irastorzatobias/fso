@@ -29,7 +29,6 @@ const userExtractor = (req, res, next) => {
     if (req.token) {
         const decodedToken = jwt.verify(req.token, SECRET);
         req.user = decodedToken;
-        console.log(req.user);
     } else {
         return res.status(401).json({ error: 'token missing or invalid' });
     }

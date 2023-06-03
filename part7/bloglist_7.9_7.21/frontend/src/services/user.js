@@ -10,4 +10,13 @@ const getUsers = async () => {
     }
 };
 
-export default { getUsers };
+const getUserPerId = async (id) => {
+    try {
+        const request = await axios.get(`${baseUrl}/${id}`);
+        return request.data;
+    } catch (error) {
+        return error.response.data;
+    }
+};
+
+export default { getUsers, getUserPerId };

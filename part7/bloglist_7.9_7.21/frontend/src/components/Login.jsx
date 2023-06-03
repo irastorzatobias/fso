@@ -1,12 +1,13 @@
-import { useState, useEffect } from 'react';
-import login from '../services/login';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { setUser } from '../reducers/userReducer';
+import { loginUser } from '../reducers/userReducer';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const handleUsernameChange = (event) => {
         setUsername(event.target.value);
@@ -18,16 +19,13 @@ const Login = () => {
 
     const handleLogin = async (event) => {
         event.preventDefault();
-        const user = await login.userLogin(username, password);
-        if (user.error) {
-            alert(user.error);
-            return;
-        }
+        const userCredentials = {
+            username,
+            password,
+        };
 
-        const token = user.token;
-
-        window.localStorage.setItem('userToken', token);
-        dispatch(setUser(user));
+        await dispatch(loginUser(userCredentials));
+        navigate('/blogs');
     };
 
     return (
