@@ -32,4 +32,11 @@ const likeBlog = async (id) => {
     return request.data;
 };
 
-export default { getAll, addBlog, deleteBlog, likeBlog };
+const getPerId = async (id) => {
+    const headers = setHeaders();
+    const request = await axios.get(`${baseUrl}/${id}`, headers);
+
+    return request.data;
+};
+
+export default { getAll, addBlog, deleteBlog, likeBlog, getPerId };

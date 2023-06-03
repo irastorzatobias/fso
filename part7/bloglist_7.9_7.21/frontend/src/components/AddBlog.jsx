@@ -36,10 +36,15 @@ const AddBlog = () => {
         setVisible(false);
     };
 
+    const handleClose = (e) => {
+        e.preventDefault();
+        setVisible(false);
+    };
+
     return !visible ? (
         <button className="bg-green-200 text-green-700 p-0.5 rounded-md" onClick={() => setVisible(true)}>add blog</button>
     ) : (
-        <form className="w-[40vw] mb-1 mx-auto" onSubmit={handleSubmit}>
+        <form className="w-[40vw] mb-1 mx-auto border border-teal-400 rounded-md p-1" onSubmit={handleSubmit}>
             <div className="flex flex-col">
                 <label htmlFor="title">Title</label>
                 <input className="p-2 rounded-md mb-2" {...title} />
@@ -52,12 +57,20 @@ const AddBlog = () => {
                 <label htmlFor="url">Url</label>
                 <input className="p-2 rounded-md mb-2" {...url} />
             </div>
-            <button
-                className="bg-green-500 rounded-md p-0.5 w-full mt-2"
-                type="submit"
-            >
-        add
-            </button>
+            <div className="flex gap-1">
+                <button
+                    className="bg-green-500 rounded-md p-0.5 w-full mt-2"
+                    type="submit"
+                >
+                    add
+                </button>
+                <button
+                    className="bg-red-500 rounded-md p-0.5 w-full mt-2"
+                    onClick={handleClose}
+                >
+                    close
+                </button>
+            </div>
         </form>
     );
 };

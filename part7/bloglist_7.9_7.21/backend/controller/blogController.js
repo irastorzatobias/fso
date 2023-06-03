@@ -8,11 +8,18 @@ blogRouter.get('/', async (request, response) => {
     response.json(blogs);
 });
 
+blogRouter.get('/:id', async (request, response) => {
+    const blog = await Blog.findById(request.params.id).populate('user', {
+        username: 1,
+        name: 1,
+    });
+    response.json(blog);
+});
+
 blogRouter.post('/', async (request, response) => {
     if (!request.user.id) {
         return response.status(401).json({ error: 'token missing or invalid' });
     }
-
 
     const user = await User.findById(request.user.id);
 
@@ -48,7 +55,7 @@ blogRouter.delete('/:id', async (request, response) => {
             .json({ error: 'user is not authorized to delete this blog' });
     }
 
-    user.blogs = user.blogs.filter(blog => blog.id !== request.params.id);
+    user.blogs = user.blogs.filter((blog) => blog.id !== request.params.id);
 
     await user.save();
     await Blog.findByIdAndRemove(request.params.id);
