@@ -39,4 +39,10 @@ const getPerId = async (id) => {
     return request.data;
 };
 
-export default { getAll, addBlog, deleteBlog, likeBlog, getPerId };
+const comment =  async (id, content) => {
+    const headers = setHeaders();
+    const request = await axios.post(`${baseUrl}/${id}/comments`, { content: content }, headers);
+    return request.data;
+};
+
+export default { getAll, addBlog, deleteBlog, likeBlog, getPerId, comment };

@@ -9,12 +9,23 @@ export const findBlog = createAsyncThunk(
     }
 );
 
+export const commentBlog = createAsyncThunk(
+    'blogFounded/commentBlog',
+    async ({ id, content }) => {
+        const response = await blogs.comment(id, content);
+        return response;
+    }
+);
+
 const blogFoundedSlice = createSlice({
     name: 'blogFounded',
     initialState: null,
     reducers: {},
     extraReducers: (builder) => {
         builder.addCase(findBlog.fulfilled, (state, action) => {
+            return action.payload;
+        });
+        builder.addCase(commentBlog.fulfilled, (state, action) => {
             return action.payload;
         });
     }

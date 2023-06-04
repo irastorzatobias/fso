@@ -4,12 +4,15 @@ import { likeBlog, removeBlog } from '../reducers/blogReducer';
 import { useParams } from 'react-router-dom';
 import { toastError, toastSuccess } from '../helpers';
 import { findBlog } from '../reducers/blogFoundedReducer';
+import AddComment from './AddComment';
 
 const Blog = ({ blog }) => {
     const { id } = useParams();
     const dispatch = useDispatch();
 
     const blogById = useSelector(state => state.blogFounded);
+    const comments = useSelector(state => state.blogFounded?.comments);
+
 
     const [viewAll, setViewAll] = useState(false);
 
@@ -19,11 +22,9 @@ const Blog = ({ blog }) => {
                 await dispatch(findBlog(id));
             })();
         }
-    }, []);
+    }, [comments]);
 
     const viewBlog = blogById ? blogById : blog;
-
-
 
     const showIconClass = `${!viewAll ? 'ri-eye-line ri-lg' : 'ri-eye-off-line ri-lg'}`;
 
@@ -37,7 +38,7 @@ const Blog = ({ blog }) => {
         } catch (e) {
             toastError(e);
         } finally {
-            toastSuccess(`You liked ${blog.title}`);
+            toastSuccess(`You liked ${viewBlog.title}`);
         }
     };
 
@@ -49,14 +50,26 @@ const Blog = ({ blog }) => {
                     <p className="italic font-semibold">{viewBlog.author}</p>
                     <p className="font-semibold text-indigo-700">Created by: {viewBlog.user.username}</p>
                     {viewAll && (
-                        <div>
+                        <div className='border-t border-teal-500'>
                             <a href={viewBlog.url}>{viewBlog.url}</a>
                             <p className="text-green-500 font-bold">{viewBlog.likes} likes </p>
+
+                            {viewBlog.comments && (
+                                <div>
+                                    <p className="font-semibold">Comments</p>
+                                    {id && <AddComment/>}
+                                    <ul className="list-disc">
+                                        {viewBlog.comments.map((comment, index) => (
+                                            <li key={index}> - {comment.content}</li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            )}
                         </div>
                     )}
                 </div>
                 <div className="flex flex-row mt-1 justify-center gap-2">
-                    <i className="ri-delete-bin-7-fill cursor-pointer ri-lg" onClick={() => handleRemove(viewBlog.id)} />
+                    {!id && <i className="ri-delete-bin-7-fill cursor-pointer ri-lg" onClick={() => handleRemove(viewBlog.id)} />}
                     <i className={showIconClass} onClick={() => setViewAll(!viewAll)} />
                     <i className="ri-thumb-up-fill ri-lg" onClick={() => handleLike(viewBlog.id)} />
                 </div>

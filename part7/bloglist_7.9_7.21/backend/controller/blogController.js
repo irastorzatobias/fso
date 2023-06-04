@@ -1,18 +1,24 @@
 const blogRouter = require('express').Router();
 
 const Blog = require('../models/blogModel');
+const Comment = require('../models/commentModel');
 const User = require('../models/userModel');
 
 blogRouter.get('/', async (request, response) => {
-    const blogs = await Blog.find({}).populate('user', { username: 1, name: 1 });
+    const blogs = await Blog.find({})
+        .populate('user', { username: 1, name: 1 })
+        .populate('comments', { content: 1 });
     response.json(blogs);
 });
 
 blogRouter.get('/:id', async (request, response) => {
-    const blog = await Blog.findById(request.params.id).populate('user', {
-        username: 1,
-        name: 1,
-    });
+    const blog = await Blog.findById(request.params.id)
+        .populate('user', {
+            username: 1,
+            name: 1,
+        })
+        .populate('comments', { content: 1 });
+
     response.json(blog);
 });
 
@@ -31,6 +37,7 @@ blogRouter.post('/', async (request, response) => {
         url: url,
         likes: likes,
         user: user._id,
+        comments: [],
     });
 
     const savedBlog = await blog.save();
@@ -72,6 +79,29 @@ blogRouter.put('/:id', async (request, response) => {
     const updatedBlog = await Blog.findByIdAndUpdate(
         { _id: request.params.id },
         { $inc: { likes: 1 } },
+        { new: true }
+    );
+
+    response.json(updatedBlog);
+});
+
+blogRouter.post('/:id/comments', async (request, response) => {
+    const { content } = request.body;
+
+    if (!content) {
+        return response.status(404).json({ error: 'comment is missing' });
+    }
+
+    const comment = new Comment({
+        content: content,
+        blog: request.params.id,
+    });
+
+    const savedComment = await comment.save();
+
+    const updatedBlog = await Blog.findByIdAndUpdate(
+        { _id: request.params.id },
+        { $push: { comments: savedComment._id } },
         { new: true }
     );
 

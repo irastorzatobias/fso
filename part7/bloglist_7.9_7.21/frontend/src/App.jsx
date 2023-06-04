@@ -17,6 +17,7 @@ const App = () => {
     const loading = useSelector(state => state.blog.loading);
     const dispatch = useDispatch();
 
+
     useEffect(() => {
         dispatch(initUser());
     }, []);
