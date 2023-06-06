@@ -1,0 +1,1 @@
+export const isNotNumber = (argument: Record<string , unknown>): boolean => isNaN(Number(argument));
