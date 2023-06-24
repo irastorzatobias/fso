@@ -5,18 +5,19 @@ import { DiaryEntry } from './types';
 import DiaryAddForm from './Components/DiaryAddForm';
 function App() {
   const [entries, setEntries] = useState<DiaryEntry[] | []>([]);
+  const [success, setSuccess] = useState<boolean>(false);
 
   useEffect(() => {
     (async () => {
       const entries = await getAllEntries();
       setEntries(entries);
     })();
-  }, []);
+  }, [success]);
 
   return (
     <div className="App">
       <h1>Diary entries</h1>
-      <DiaryAddForm />
+      <DiaryAddForm success={success} handleSuccess={setSuccess}/>
       <DiaryList entries={entries} />
     </div>
   );
