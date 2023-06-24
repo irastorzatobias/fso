@@ -1,9 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import useField, { UseFieldReturn } from '../hooks/useField';
 import { sendDiaryEntry } from '../services/diaryEntryService';
 import { Visibility, Weather } from '../types';
+import { AxiosError } from 'axios';
 
 const DiaryAddForm: React.FC = () => {
+  const visibility: UseFieldReturn = useField();
+  const weather: UseFieldReturn = useField();
+  const comment: UseFieldReturn = useField();
+
+  const [date, setDate] = useState<string>('');
+  const [error, setError] = useState<boolean>(false);
+
   const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
 
@@ -14,8 +22,14 @@ const DiaryAddForm: React.FC = () => {
         weather: weather.value as Weather,
         comment: comment.value,
       });
-    } catch (e) {
-      console.log(e);
+      setError(false);
+
+    } catch (e: any) {
+      if (e && (e as AxiosError).response) {
+        setError(e.response.data);
+      } else {
+        console.log(e);
+      }
     }
 
     visibility.reset();
@@ -24,14 +38,9 @@ const DiaryAddForm: React.FC = () => {
     setDate('');
   };
 
-  const visibility: UseFieldReturn = useField();
-  const weather: UseFieldReturn = useField();
-  const comment: UseFieldReturn = useField();
-
-  const [date, setDate] = React.useState<string>('');
-
   return (
     <div>
+      {error && <p style={{ color: 'red' }}>{error}</p> }
       <form
         onSubmit={handleSubmit}
         style={{ display: 'inline-flex', flexDirection: 'column', gap: '10px' }}
