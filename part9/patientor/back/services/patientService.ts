@@ -1,4 +1,4 @@
-import { Entry, Gender, NewPatient, Patient, PatientPreview } from '../types';
+import { NewPatient, Patient, PatientPreview } from '../types';
 import patients from '../data/patients';
 import { v1 as uuid } from 'uuid';
 
@@ -7,7 +7,7 @@ const getPatients = (): PatientPreview[] => {
     id,
     name,
     dateOfBirth,
-    gender: gender as Gender,
+    gender: gender ,
     occupation,
   }));
 };
@@ -18,8 +18,8 @@ const getPatient = (id: string): Patient | undefined => {
   return foundPatient
     ? {
       ...foundPatient,
-      gender: foundPatient.gender as Gender,
-      entries: foundPatient.entries as Entry[],
+      gender: foundPatient.gender,
+      entries: foundPatient.entries,
     }
     : undefined;
 };

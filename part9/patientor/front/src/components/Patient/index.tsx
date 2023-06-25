@@ -1,9 +1,14 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import patient from "../../services/patients";
-import { Gender, Patient } from "../../types";
+import { Diagnose, Gender, Patient } from "../../types";
+import Entries from "./Entries";
 
-const PatientDetail: React.FC = () => {
+interface PatientDetailProps {
+  diagnoses: Diagnose[];
+}
+
+const PatientDetail: React.FC<PatientDetailProps> = ({ diagnoses }) => {
   const { id } = useParams();
   const [patientDetail, setPatientDetail] = useState<Patient | null>(null);
 
@@ -16,19 +21,22 @@ const PatientDetail: React.FC = () => {
   }, []);
 
   const setGenderIcon = (): string => {
-    return patientDetail?.gender === Gender.Male ? 'ri-men-line' : 'ri-women-line';
-  }
+    return patientDetail?.gender === Gender.Male
+      ? "ri-men-line"
+      : "ri-women-line";
+  };
 
   return (
     <div>
       {patientDetail && (
         <>
-          <div style={{display: 'flex', alignItems: 'center', gap: '10px'}}>
+          <div className="flex flex-row items-center gap-2 font-bold text-2xl mt-2">
             <h3>{patientDetail.name}</h3>
-            <i className={setGenderIcon()}/>
+            <i className={setGenderIcon()} />
           </div>
           <p>ssn: {patientDetail.ssn}</p>
           <p>occupation: {patientDetail.occupation}</p>
+          <Entries entries={patientDetail.entries} diagnoses={diagnoses}/>
         </>
       )}
     </div>

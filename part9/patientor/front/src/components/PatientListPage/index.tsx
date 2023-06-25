@@ -78,7 +78,7 @@ const PatientListPage = ({ patients, setPatients }: Props) => {
         <TableBody>
           {Object.values(patients).map((patient: Patient) => (
             <TableRow key={patient.id}>
-              <Link to={`/${patient.id}`}>
+              <Link to={`/${patient.id}`} className="bg-indigo-200 rounded-md p-1 hover:bg-indigo-500">
                 <TableCell>{patient.name}</TableCell>
               </Link>
               <TableCell>{patient.gender}</TableCell>
