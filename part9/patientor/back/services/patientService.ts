@@ -1,4 +1,4 @@
-import { NewPatient, Patient, PatientPreview } from '../types';
+import { Entry, Gender, NewPatient, Patient, PatientPreview } from '../types';
 import patients from '../data/patients';
 import { v1 as uuid } from 'uuid';
 
@@ -7,15 +7,28 @@ const getPatients = (): PatientPreview[] => {
     id,
     name,
     dateOfBirth,
-    gender,
+    gender: gender as Gender,
     occupation,
   }));
+};
+
+const getPatient = (id: string): Patient | undefined => {
+  const foundPatient = patients.find((patient) => patient.id === id);
+
+  return foundPatient
+    ? {
+      ...foundPatient,
+      gender: foundPatient.gender as Gender,
+      entries: foundPatient.entries as Entry[],
+    }
+    : undefined;
 };
 
 const addPatient = (entry: NewPatient): Patient => {
   const newPatient = {
     id: uuid(),
     ...entry,
+    entries: [],
   };
 
   patients.push(newPatient);
@@ -23,4 +36,4 @@ const addPatient = (entry: NewPatient): Patient => {
   return newPatient;
 };
 
-export { getPatients, addPatient };
+export { getPatients, getPatient, addPatient };
