@@ -1,6 +1,6 @@
 import { Patient, Gender } from '../types';
 
-const patientsData: Patient[] = [
+const patients: Patient[] = [
   {
     id: 'd2773336-f723-11e9-8f0b-362b9e155667',
     name: 'John McClane',
@@ -46,20 +46,6 @@ const patientsData: Patient[] = [
           endDate: '2019-08-28',
         },
       },
-      {
-        id: 'fcd59fa6-c4b4-4fec-ac4d-df4fe1f85f65',
-        date: '2019-08-05',
-        type: 'OccupationalHealthcare',
-        specialist: 'MD House',
-        employerName: 'HyPD',
-        diagnosisCodes: ['Z57.1'],
-        description:
-          'Shit himself',
-        sickLeave: {
-          startDate: '2019-08-05',
-          endDate: '2019-08-28',
-        },
-      },
     ],
   },
   {
@@ -67,7 +53,7 @@ const patientsData: Patient[] = [
     name: 'Hans Gruber',
     dateOfBirth: '1970-04-25',
     ssn: '250470-555L',
-    gender: Gender.Other,
+    gender: Gender.Male,
     occupation: 'Technician',
     entries: [],
   },
@@ -126,4 +112,4 @@ const patientsData: Patient[] = [
   },
 ];
 
-export default patientsData;
+export default patients;
